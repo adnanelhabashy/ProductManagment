@@ -8,19 +8,19 @@
                 Filter by : 
             </div>
             <div class="col-md-4">
-                <input type="text"/>
+                <input type="text" [(ngModel)] = 'listFilter'/>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h4>Filtered by :</h4>
+                <h4>Filtered by :{{listFilter}}</h4>
             </div>
         </div>
         <div class="table-responsive">
             <table class="table" *ngIf="products && products.length">
                 <thead>
                     <tr>
-                        <th><button class="btn btn-primary">Show Image</button></th>
+                        <th><button class="btn btn-primary" (click) = 'toggleImages()'>{{showImage ? 'Hide':'Show'}} Image</button></th>
                         <th>Product</th>
                         <th>Code</th>
                         <th>Available</th>
@@ -29,13 +29,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor = 'let Product of products'>
-                        <td><img [src] = 'Product.imageUrl' [title] = 'Product.productName' [width]='imageWidth'></td>
+                    <tr *ngFor = 'let Product of filteredProducts'>
+                        <td><img *ngIf = 'showImage' [src] = 'Product.imageUrl' [title] = 'Product.productName' [width]='imageWidth'></td>
                         <td>{{Product.productName}}</td>
-                        <td>{{Product.productCode}}</td>
+                        <td>{{Product.productCode | lowercase |convertToSpaces:'-'}}</td>
                         <td>{{Product.releaseDate}}</td>
-                        <td>{{Product.price}}</td>
-                        <td>{{Product.starRating}}</td>
+                        <td>{{Product.price | currency :'L.E':'symbol':'1.2-2'}}</td>
+                        <td><pm-star [rating]='Product.starRating'></pm-star></td>
                     </tr>
                 </tbody>
             </table>
