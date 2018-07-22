@@ -1,21 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/Forms';
 import { AppComponent } from './app.component';
-import { ProductListComponent } from './Products/product-list.component';
-import { ConvertToSpaces } from './shared/conver-to-spaces.pipe';
-import { StarComponent } from './shared/star.component';
+import { HttpClientModule } from '@angular/common/http';
+import { WelcomeComponent } from './home/welcome.component';
+import { RouterModule } from '@angular/router';
+import { ProductDetailGuard } from './Products/product-detail.guard';
+import { ProductModule } from './Products/product.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent,
-    ConvertToSpaces,
-    StarComponent
+    WelcomeComponent
+    
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    HttpClientModule,
+    RouterModule.forRoot([
+      {path:'welcome',component:WelcomeComponent},
+      {path:'',redirectTo:'welcome',pathMatch:'full'},
+      {path:'**',redirectTo:'welcome',pathMatch:'full'}
+    ]
+    //,{useHash:true}
+  ),
+    ProductModule
   ],
   bootstrap: [AppComponent]
 })
